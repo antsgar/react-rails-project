@@ -8,4 +8,9 @@ class Api::QuestionController < ApplicationController
     end
     render json: question
   end
+
+  def random
+    question = Question.all.sample(1).first
+    render json: question
+  end
 end

@@ -23,8 +23,16 @@ const Home = () => {
         content: questionContent,
       }),
     })
-    const createdQuestion: Question = await response.json()
-    setAnswer(createdQuestion.answer)
+    const question: Question = await response.json()
+    setAnswer(question.answer)
+  }
+
+  const onLuckyClick = async (event: SubmitEvent): Promise<void> => {
+    event.preventDefault()
+    const response = await fetch("/api/question/random")
+    const question: Question = await response.json()
+    setQuestionContent(question.content)
+    setAnswer(question.answer)
   }
 
   return (
@@ -63,7 +71,9 @@ const Home = () => {
               <button type="submit" className="button-primary">
                 Ask question
               </button>
-              <button className="button-secondary">I'm feeling lucky</button>
+              <button className="button-secondary" onClick={onLuckyClick}>
+                I'm feeling lucky
+              </button>
             </div>
           )}
         </form>

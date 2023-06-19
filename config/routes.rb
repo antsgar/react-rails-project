@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     post 'question' => 'question#create'
+    get 'question/random' => 'question#random'
   end
   root 'home#index'
   get '/*path' => 'home#index'
