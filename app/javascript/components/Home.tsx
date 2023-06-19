@@ -2,11 +2,12 @@ import React, { useState } from "react"
 
 type Question = {
   content: string
-  answer: string
+  answer?: string
 }
 
 const Home = () => {
   const [answer, setAnswer] = useState<string>()
+  const [questionContent, setQuestionContent] = useState<string>("What is The Minimalist Entrepreneur about?")
 
   const onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
@@ -16,7 +17,11 @@ const Home = () => {
       method: "POST",
       headers: {
         "X-CSRF-Token": token,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        content: questionContent,
+      }),
     })
     const createdQuestion: Question = await response.json()
     setAnswer(createdQuestion.answer)
@@ -41,7 +46,8 @@ const Home = () => {
           <textarea
             name="question"
             className="question-box"
-            defaultValue="What is The Minimalist Entrepreneur about?"
+            value={questionContent}
+            onChange={(event: React.FormEvent<HTMLTextAreaElement>) => setQuestionContent(event.target.value)}
           />
           {!answer && (
             <div className="buttons-container">

@@ -1,5 +1,6 @@
 class Api::QuestionController < ApplicationController
   def create
-    render json: { answer: "Dummy answer" }
+    question = Question.create!({ :content => params[:content], :answer => "Dummy answer"})
+    render json: question
   end
 end
