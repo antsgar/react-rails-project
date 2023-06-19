@@ -1,6 +1,11 @@
 class Api::QuestionController < ApplicationController
   def create
-    question = Question.create!({ :content => params[:content], :answer => "Dummy answer"})
+    params.permit(:content)
+    content = params[:content]
+    question = Question.find_by content: content
+    unless question
+      question = Question.create!({ :content => content, :answer => "Dummy answer"})
+    end
     render json: question
   end
 end
