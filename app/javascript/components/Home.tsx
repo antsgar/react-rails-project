@@ -57,16 +57,18 @@ const Home = () => {
               <button className="button-secondary">I'm feeling lucky</button>
             </div>
           )}
-        </form>
-        {answer && (
-          <>
-            <p>
-              <strong>Answer:</strong> <span>{answer}</span>
-            </p>
+          {answer && (
+            <>
+              <p>
+                <strong>Answer:</strong> <span>{answer}</span>
+              </p>
 
-            <button className="button button-primary">Ask another question</button>
-          </>
-        )}
+              <button className="button button-primary" type="submit">
+                Ask another question
+              </button>
+            </>
+          )}
+        </form>
       </div>
       <footer>
         <p className="text credits">
