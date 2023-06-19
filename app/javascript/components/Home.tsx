@@ -1,6 +1,27 @@
-import React from "react"
+import React, { useState } from "react"
+
+type Question = {
+  content: string
+  answer: string
+}
 
 const Home = () => {
+  const [answer, setAnswer] = useState<string>()
+
+  const onSubmit = async (event: SubmitEvent): Promise<void> => {
+    event.preventDefault()
+    const tokenElement: HTMLMetaElement = document.querySelector('meta[name="csrf-token"]')
+    const token = tokenElement.content
+    const response = await fetch("/api/question", {
+      method: "POST",
+      headers: {
+        "X-CSRF-Token": token,
+      },
+    })
+    const createdQuestion: Question = await response.json()
+    setAnswer(createdQuestion.answer)
+  }
+
   return (
     <>
       <div className="header">
@@ -11,24 +32,35 @@ const Home = () => {
           <h1>Ask Sahil Lavignia's Book</h1>
         </div>
       </div>
-      <div className="main">
+      <div>
         <p className="text">
           This is an experiment in using AI to make Sahil Lavignia's book's content more accessible. Ask a question and
           AI'll answer it in real-time:
         </p>
-        <form action="/ask" method="post">
+        <form onSubmit={onSubmit}>
           <textarea
             name="question"
             className="question-box"
             defaultValue="What is The Minimalist Entrepreneur about?"
           />
-          <div className="buttons-container">
-            <button type="submit" className="button-primary">
-              Ask question
-            </button>
-            <button className="button-secondary">I'm feeling lucky</button>
-          </div>
+          {!answer && (
+            <div className="buttons-container">
+              <button type="submit" className="button-primary">
+                Ask question
+              </button>
+              <button className="button-secondary">I'm feeling lucky</button>
+            </div>
+          )}
         </form>
+        {answer && (
+          <>
+            <p>
+              <strong>Answer:</strong> <span>{answer}</span>
+            </p>
+
+            <button className="button button-primary">Ask another question</button>
+          </>
+        )}
       </div>
       <footer>
         <p className="text credits">
