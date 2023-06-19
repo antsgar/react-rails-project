@@ -49,24 +49,22 @@ const Home = () => {
             value={questionContent}
             onChange={(event: React.FormEvent<HTMLTextAreaElement>) => setQuestionContent(event.target.value)}
           />
-          {!answer && (
+          {answer ? (
+            <>
+              <p>
+                <strong>Answer:</strong> <span>{answer}</span>
+              </p>
+              <button className="button button-primary" type="submit">
+                Ask another question
+              </button>
+            </>
+          ) : (
             <div className="buttons-container">
               <button type="submit" className="button-primary">
                 Ask question
               </button>
               <button className="button-secondary">I'm feeling lucky</button>
             </div>
-          )}
-          {answer && (
-            <>
-              <p>
-                <strong>Answer:</strong> <span>{answer}</span>
-              </p>
-
-              <button className="button button-primary" type="submit">
-                Ask another question
-              </button>
-            </>
           )}
         </form>
       </div>
