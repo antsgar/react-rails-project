@@ -1,54 +1,16 @@
-import React, { useState } from "react"
-
-type Question = {
-  content: string
-  answer: string
-}
+import React from "react"
+import useHome from "../hooks/useHome"
 
 const Home = () => {
-  const [answer, setAnswer] = useState<string>()
-  const [questionContent, setQuestionContent] = useState<string>("What is The Minimalist Entrepreneur about?")
-  const [isTypingAnswer, setIsTypingAnswer] = useState(false)
-
-  const setAnswerWithTypewriterEffect = (newAnswer: string): void => {
-    setAnswer("")
-    const answerArr = newAnswer.split("")
-    setIsTypingAnswer(true)
-    const interval = setInterval(() => {
-      if (answerArr.length > 0) {
-        setAnswer((answer: string) => `${answer}${answerArr.shift()}`)
-      } else {
-        clearInterval(interval)
-        setIsTypingAnswer(false)
-      }
-    }, 100)
-  }
-
-  const onSubmit = async (event: SubmitEvent): Promise<void> => {
-    event.preventDefault()
-    const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-    const token = tokenElement.content
-    const response = await fetch("/api/question", {
-      method: "POST",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        content: questionContent,
-      }),
-    })
-    const question: Question = await response.json()
-    setAnswerWithTypewriterEffect(question.answer)
-  }
-
-  const onLuckyClick = async (event: SubmitEvent): Promise<void> => {
-    event.preventDefault()
-    const response = await fetch("/api/question/random")
-    const question: Question = await response.json()
-    setQuestionContent(question.content)
-    setAnswer(question.answer)
-  }
+  const {
+    onSubmit,
+    onLuckyQuestionClick,
+    onAskAnotherQuestionClick,
+    onQuestionContentChange,
+    questionContent,
+    answer,
+    isTypingAnswer,
+  } = useHome()
 
   return (
     <>
@@ -70,7 +32,7 @@ const Home = () => {
             name="question"
             className="question-box"
             value={questionContent}
-            onChange={(event: React.FormEvent<HTMLTextAreaElement>) => setQuestionContent(event.target.value)}
+            onChange={onQuestionContentChange}
           />
           {answer ? (
             <>
@@ -78,7 +40,7 @@ const Home = () => {
                 <strong>Answer:</strong> <span>{answer}</span>
               </p>
               {!isTypingAnswer && (
-                <button className="button button-primary" onClick={() => setAnswer(undefined)}>
+                <button className="button button-primary" onClick={onAskAnotherQuestionClick}>
                   Ask another question
                 </button>
               )}
@@ -88,7 +50,7 @@ const Home = () => {
               <button type="submit" className="button-primary">
                 Ask question
               </button>
-              <button className="button-secondary" onClick={onLuckyClick}>
+              <button className="button-secondary" onClick={onLuckyQuestionClick}>
                 I'm feeling lucky
               </button>
             </div>
