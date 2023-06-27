@@ -2,16 +2,31 @@ import React, { useState } from "react"
 
 type Question = {
   content: string
-  answer?: string
+  answer: string
 }
 
 const Home = () => {
   const [answer, setAnswer] = useState<string>()
   const [questionContent, setQuestionContent] = useState<string>("What is The Minimalist Entrepreneur about?")
+  const [isTypingAnswer, setIsTypingAnswer] = useState(false)
+
+  const setAnswerWithTypewriterEffect = (newAnswer: string): void => {
+    setAnswer("")
+    const answerArr = newAnswer.split("")
+    setIsTypingAnswer(true)
+    const interval = setInterval(() => {
+      if (answerArr.length > 0) {
+        setAnswer((answer: string) => `${answer}${answerArr.shift()}`)
+      } else {
+        clearInterval(interval)
+        setIsTypingAnswer(false)
+      }
+    }, 100)
+  }
 
   const onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
-    const tokenElement: HTMLMetaElement = document.querySelector('meta[name="csrf-token"]')
+    const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
     const token = tokenElement.content
     const response = await fetch("/api/question", {
       method: "POST",
@@ -24,7 +39,7 @@ const Home = () => {
       }),
     })
     const question: Question = await response.json()
-    setAnswer(question.answer)
+    setAnswerWithTypewriterEffect(question.answer)
   }
 
   const onLuckyClick = async (event: SubmitEvent): Promise<void> => {
@@ -62,9 +77,11 @@ const Home = () => {
               <p className="answer">
                 <strong>Answer:</strong> <span>{answer}</span>
               </p>
-              <button className="button button-primary" type="submit">
-                Ask another question
-              </button>
+              {!isTypingAnswer && (
+                <button className="button button-primary" type="submit">
+                  Ask another question
+                </button>
+              )}
             </>
           ) : (
             <div className="buttons-container">
