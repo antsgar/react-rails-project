@@ -78,7 +78,7 @@ const Home = () => {
                 <strong>Answer:</strong> <span>{answer}</span>
               </p>
               {!isTypingAnswer && (
-                <button className="button button-primary" type="submit">
+                <button className="button button-primary" onClick={() => setAnswer(undefined)}>
                   Ask another question
                 </button>
               )}
