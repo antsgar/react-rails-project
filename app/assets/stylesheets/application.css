@@ -16,6 +16,7 @@
 
 body {
   max-width: 60ch;
+  padding: 20px;
   margin: auto;
   font-family: system-ui;
   line-height: 1.75;
@@ -41,7 +42,7 @@ h1 {
 
 .text {
   color: #777;
-  font-size: 1rem;
+  font-size: 1.115rem;
 }
 
 .question-box {
@@ -94,4 +95,8 @@ button:hover {
 
 .credits {
   text-align: center;
+}
+
+.answer {
+  font-size: 1.115rem;
 }

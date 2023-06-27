@@ -59,7 +59,7 @@ const Home = () => {
           />
           {answer ? (
             <>
-              <p>
+              <p className="answer">
                 <strong>Answer:</strong> <span>{answer}</span>
               </p>
               <button className="button button-primary" type="submit">
@@ -80,7 +80,7 @@ const Home = () => {
       </div>
       <footer>
         <p className="text credits">
-          Book by <a href="https://twitter.com/shl">Sahil Lavingia</a> • Project by{" "}
+          Book & original project by <a href="https://twitter.com/shl">Sahil Lavingia</a> • Project by{" "}
           <a href="https://github.com/antsgar">Antonella Sgarlatta</a> • <a href="">Fork on GitHub</a>
         </p>
       </footer>
