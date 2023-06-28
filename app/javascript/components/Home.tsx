@@ -19,13 +19,13 @@ const Home = () => {
           <a href="https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397">
             <img src="/images/book-cover.png" loading="lazy" className="book-cover" />
           </a>
-          <h1>Ask Sahil Lavignia's Book</h1>
+          <h1>Ask The Minimalist Entrepreneur</h1>
         </div>
       </div>
       <div>
         <p className="text">
-          This is an experiment in using AI to make Sahil Lavignia's book's content more accessible. Ask a question and
-          AI'll answer it in real-time:
+          This is an experiment in using AI to make Sahil Lavignia's The Minimalist Entrepreneur's content more
+          accessible. Ask a question and AI'll answer it in real-time:
         </p>
         <form onSubmit={onSubmit}>
           <textarea
