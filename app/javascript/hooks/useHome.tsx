@@ -31,7 +31,7 @@ const useHome = (): UseHomeReturn => {
         clearInterval(interval)
         setIsTypingAnswer(false)
       }
-    }, 100)
+    }, 50)
   }
 
   const onSubmit = async (event: SubmitEvent): Promise<void> => {
@@ -45,7 +45,9 @@ const useHome = (): UseHomeReturn => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        content: questionContent,
+        question: {
+          content: questionContent,
+        },
       }),
     })
     const question: Question = await response.json()
