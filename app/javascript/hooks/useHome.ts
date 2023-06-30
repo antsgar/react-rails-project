@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { ChangeEventHandler, FormEventHandler, MouseEventHandler, useState } from "react"
 
 type Question = {
   content: string
@@ -6,12 +6,12 @@ type Question = {
 }
 
 type UseHomeReturn = {
-  onSubmit: (event: SubmitEvent) => Promise<void>
-  onLuckyQuestionClick: (event: SubmitEvent) => Promise<void>
+  onSubmit: FormEventHandler<HTMLFormElement>
+  onLuckyQuestionClick: MouseEventHandler<HTMLButtonElement>
   onAskAnotherQuestionClick: () => void
-  onQuestionContentChange: (event: React.FormEvent<HTMLTextAreaElement>) => void
+  onQuestionContentChange: ChangeEventHandler<HTMLTextAreaElement>
   questionContent: string
-  answer: string
+  answer: string | undefined
   isLoading: boolean
   isLuckyQuestionLoading: boolean
   isTypingAnswer: boolean
@@ -32,7 +32,7 @@ const useHome = (): UseHomeReturn => {
     setIsTypingAnswer(true)
     const interval = setInterval(() => {
       if (answerArr.length > 0) {
-        setAnswer((answer: string) => `${answer}${answerArr.shift()}`)
+        setAnswer((answer: string | undefined) => `${answer ?? ""}${answerArr.shift()}`)
       } else {
         clearInterval(interval)
         setIsTypingAnswer(false)
@@ -40,13 +40,13 @@ const useHome = (): UseHomeReturn => {
     }, 50)
   }
 
-  const onSubmit = async (event: SubmitEvent): Promise<void> => {
+  const onSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault()
     setHasError(false)
     setIsLoading(true)
     try {
       const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-      const token = tokenElement.content
+      const token = tokenElement?.content
       const response = await fetch("/api/question", {
         method: "POST",
         headers: {
@@ -68,7 +68,7 @@ const useHome = (): UseHomeReturn => {
     }
   }
 
-  const onLuckyQuestionClick = async (event: SubmitEvent): Promise<void> => {
+  const onLuckyQuestionClick: MouseEventHandler<HTMLButtonElement> = async (event) => {
     event.preventDefault()
     setHasError(false)
     setIsLuckyQuestionLoading(true)
@@ -88,7 +88,7 @@ const useHome = (): UseHomeReturn => {
     setAnswer(undefined)
   }
 
-  const onQuestionContentChange = (event: React.FormEvent<HTMLTextAreaElement>): void => {
+  const onQuestionContentChange: ChangeEventHandler<HTMLTextAreaElement> = (event) => {
     setQuestionContent(event.target.value)
   }
 
