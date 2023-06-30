@@ -9,6 +9,8 @@ const Home = () => {
     onQuestionContentChange,
     questionContent,
     answer,
+    isLoading,
+    isLuckyQuestionLoading,
     isTypingAnswer,
   } = useHome()
 
@@ -33,6 +35,7 @@ const Home = () => {
             className="question-box"
             value={questionContent}
             onChange={onQuestionContentChange}
+            disabled={isLoading || isLuckyQuestionLoading || isTypingAnswer}
           />
           {answer ? (
             <>
@@ -47,11 +50,11 @@ const Home = () => {
             </>
           ) : (
             <div className="buttons-container">
-              <button type="submit" className="button-primary">
-                Ask question
+              <button type="submit" className="button-primary" disabled={isLoading}>
+                {isLoading ? "Asking..." : "Ask question"}
               </button>
-              <button className="button-secondary" onClick={onLuckyQuestionClick}>
-                I'm feeling lucky
+              <button className="button-secondary" onClick={onLuckyQuestionClick} disabled={isLuckyQuestionLoading}>
+                {isLuckyQuestionLoading ? "Asking..." : "I'm feeling lucky"}
               </button>
             </div>
           )}

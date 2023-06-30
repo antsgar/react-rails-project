@@ -12,12 +12,16 @@ type UseHomeReturn = {
   onQuestionContentChange: (event: React.FormEvent<HTMLTextAreaElement>) => void
   questionContent: string
   answer: string
+  isLoading: boolean
+  isLuckyQuestionLoading: boolean
   isTypingAnswer: boolean
 }
 
 const useHome = (): UseHomeReturn => {
   const [answer, setAnswer] = useState<string>()
   const [questionContent, setQuestionContent] = useState<string>("What is The Minimalist Entrepreneur about?")
+  const [isLoading, setIsLoading] = useState(false)
+  const [isLuckyQuestionLoading, setIsLuckyQuestionLoading] = useState(false)
   const [isTypingAnswer, setIsTypingAnswer] = useState(false)
 
   const setAnswerWithTypewriterEffect = (newAnswer: string): void => {
@@ -36,30 +40,40 @@ const useHome = (): UseHomeReturn => {
 
   const onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
-    const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
-    const token = tokenElement.content
-    const response = await fetch("/api/question", {
-      method: "POST",
-      headers: {
-        "X-CSRF-Token": token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        question: {
-          content: questionContent,
+    setIsLoading(true)
+    try {
+      const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
+      const token = tokenElement.content
+      const response = await fetch("/api/question", {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": token,
+          "Content-Type": "application/json",
         },
-      }),
-    })
-    const question: Question = await response.json()
-    setAnswerWithTypewriterEffect(question.answer)
+        body: JSON.stringify({
+          question: {
+            content: questionContent,
+          },
+        }),
+      })
+      const question: Question = await response.json()
+      setAnswerWithTypewriterEffect(question.answer)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const onLuckyQuestionClick = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
-    const response = await fetch("/api/question/random")
-    const question: Question = await response.json()
-    setQuestionContent(question.content)
-    setAnswerWithTypewriterEffect(question.answer)
+    setIsLuckyQuestionLoading(true)
+    try {
+      const response = await fetch("/api/question/random")
+      const question: Question = await response.json()
+      setQuestionContent(question.content)
+      setAnswerWithTypewriterEffect(question.answer)
+    } finally {
+      setIsLuckyQuestionLoading(false)
+    }
   }
 
   const onAskAnotherQuestionClick = (): void => {
@@ -77,6 +91,8 @@ const useHome = (): UseHomeReturn => {
     onQuestionContentChange,
     questionContent,
     answer,
+    isLoading,
+    isLuckyQuestionLoading,
     isTypingAnswer,
   }
 }

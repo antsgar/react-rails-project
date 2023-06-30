@@ -71,7 +71,7 @@ button {
   border: none;
 }
 
-button:hover {
+button:hover:enabled {
   cursor: pointer;
 }
 
@@ -80,8 +80,12 @@ button:hover {
   background: black;
 }
 
-.button-primary:hover {
+.button-primary:hover:enabled {
   background: #333;
+}
+
+.button-primary:disabled {
+  background: #555;
 }
 
 .button-secondary {
@@ -89,8 +93,12 @@ button:hover {
   color: #444;
 }
 
-.button-secondary:hover {
+.button-secondary:hover:enabled {
   background: #eee;
+}
+
+.button-primary:disabled {
+  background: #666;
 }
 
 .credits {
