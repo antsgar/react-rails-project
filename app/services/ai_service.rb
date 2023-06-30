@@ -56,7 +56,6 @@ class AiService
         "content": "#{SYSTEM_MESSAGE}#{context}"
       }
     ]
-    Rails.logger.debug(messages)
     EXAMPLE_QUESTIONS.each do |question|
       messages.append(
         {

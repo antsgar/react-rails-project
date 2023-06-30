@@ -18,7 +18,7 @@ class Api::QuestionController < ApplicationController
     unless question
       context = get_context(content)
       answer = @ai_service.ask_question(content, context)
-      question = Question.create!({ :content => content, :answer => answer})
+      question = Question.create!({ :content => content, :answer => answer })
     end
     render json: question.to_json(only: %i[content answer])
   end
