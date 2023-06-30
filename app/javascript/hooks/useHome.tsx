@@ -15,6 +15,7 @@ type UseHomeReturn = {
   isLoading: boolean
   isLuckyQuestionLoading: boolean
   isTypingAnswer: boolean
+  hasError: boolean
 }
 
 const useHome = (): UseHomeReturn => {
@@ -23,6 +24,7 @@ const useHome = (): UseHomeReturn => {
   const [isLoading, setIsLoading] = useState(false)
   const [isLuckyQuestionLoading, setIsLuckyQuestionLoading] = useState(false)
   const [isTypingAnswer, setIsTypingAnswer] = useState(false)
+  const [hasError, setHasError] = useState(false)
 
   const setAnswerWithTypewriterEffect = (newAnswer: string): void => {
     setAnswer("")
@@ -40,6 +42,7 @@ const useHome = (): UseHomeReturn => {
 
   const onSubmit = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
+    setHasError(false)
     setIsLoading(true)
     try {
       const tokenElement = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement
@@ -58,6 +61,8 @@ const useHome = (): UseHomeReturn => {
       })
       const question: Question = await response.json()
       setAnswerWithTypewriterEffect(question.answer)
+    } catch {
+      setHasError(true)
     } finally {
       setIsLoading(false)
     }
@@ -65,12 +70,15 @@ const useHome = (): UseHomeReturn => {
 
   const onLuckyQuestionClick = async (event: SubmitEvent): Promise<void> => {
     event.preventDefault()
+    setHasError(false)
     setIsLuckyQuestionLoading(true)
     try {
       const response = await fetch("/api/question/random")
       const question: Question = await response.json()
       setQuestionContent(question.content)
       setAnswerWithTypewriterEffect(question.answer)
+    } catch {
+      setHasError(true)
     } finally {
       setIsLuckyQuestionLoading(false)
     }
@@ -94,6 +102,7 @@ const useHome = (): UseHomeReturn => {
     isLoading,
     isLuckyQuestionLoading,
     isTypingAnswer,
+    hasError,
   }
 }
 

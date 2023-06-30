@@ -108,3 +108,8 @@ button:hover:enabled {
 .answer {
   font-size: 1.115rem;
 }
+
+.errorMessage {
+  font-size: 1.115rem;
+  color: red
+}

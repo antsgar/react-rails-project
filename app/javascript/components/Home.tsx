@@ -12,6 +12,7 @@ const Home = () => {
     isLoading,
     isLuckyQuestionLoading,
     isTypingAnswer,
+    hasError,
   } = useHome()
 
   return (
@@ -37,6 +38,9 @@ const Home = () => {
             onChange={onQuestionContentChange}
             disabled={isLoading || isLuckyQuestionLoading || isTypingAnswer}
           />
+          {hasError && (
+            <p className="errorMessage">Oops! Something went wrong. Please try asking your question again.</p>
+          )}
           {answer ? (
             <>
               <p className="answer">
