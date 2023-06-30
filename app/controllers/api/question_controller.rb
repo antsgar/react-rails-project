@@ -15,7 +15,7 @@ class Api::QuestionController < ApplicationController
   def create
     content = params[:question][:content]
     question = Question.find_by content: content
-    unless (question and false)
+    unless question
       context = get_context(content)
       answer = @ai_service.ask_question(content, context)
       question = Question.create!({ :content => content, :answer => answer})
