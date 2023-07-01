@@ -10,7 +10,7 @@ class AiService
 
   def ask_question(content, context)
     messages = [{ role: "system", content: "#{SYSTEM_MESSAGE}#{context}" }]
-    EXAMPLE_QUESTIONS.eacxwh do |question|
+    EXAMPLE_QUESTIONS.each do |question|
       messages.append(
         { role: "user", content: question[:content] },
         { role: "assistant", content: question[:answer] }

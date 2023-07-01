@@ -12,9 +12,6 @@ module Askmybook
     config.load_defaults 7.0
 
     # Override these config variables to use the app for a different book
-    config.x.book_title = "The Minimalist Entrepreneur"
-    config.x.author = "Sahil Lavignia"
-    config.x.author_link = "https://twitter.com/shl"
     config.x.chat_prompt =
       "Sahil Lavingia is the founder and CEO of Gumroad, and the author of the book The Minimalist Entrepreneur (also known as TME). These are questions and answers by him. Please keep your answers to three sentences maximum, and speak in complete sentences. Stop speaking once your point is made.\n\nContext that may be useful, pulled from The Minimalist Entrepreneur:\n"
     config.x.chat_example_questions = [
