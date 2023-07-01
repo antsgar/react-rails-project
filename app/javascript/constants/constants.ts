@@ -1,0 +1,5 @@
+export const BOOK_TITLE = "The Minimalist Entrepreneur"
+export const BOOK_LINK = "https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397"
+export const BOOK_AUTHOR = "Sahil Lavignia"
+export const AUTHOR_LINK = "https://twitter.com/shl"
+export const COVER_IMAGE_URL = "/images/book-cover.png"

@@ -1,5 +1,6 @@
 import React from "react"
 import useHome from "../hooks/useHome"
+import { AUTHOR_LINK, BOOK_AUTHOR, BOOK_LINK, BOOK_TITLE, COVER_IMAGE_URL } from "../constants/constants"
 
 const Home = () => {
   const {
@@ -19,16 +20,16 @@ const Home = () => {
     <>
       <div className="header">
         <div>
-          <a href="https://www.amazon.com/Minimalist-Entrepreneur-Great-Founders-More/dp/0593192397">
-            <img src="/images/book-cover.png" loading="lazy" className="book-cover" />
+          <a href={BOOK_LINK}>
+            <img src={COVER_IMAGE_URL} loading="lazy" className="book-cover" />
           </a>
-          <h1>Ask The Minimalist Entrepreneur</h1>
+          <h1>Ask {BOOK_TITLE}</h1>
         </div>
       </div>
       <div>
         <p className="text">
-          This is an experiment in using AI to make Sahil Lavignia's The Minimalist Entrepreneur's content more
-          accessible. Ask a question and AI'll answer it in real-time:
+          This is an experiment in using AI to make {BOOK_AUTHOR}'s {BOOK_TITLE}'s content more accessible. Ask a
+          question and AI'll answer it in real-time:
         </p>
         <form onSubmit={onSubmit}>
           <textarea
@@ -66,7 +67,8 @@ const Home = () => {
       </div>
       <footer>
         <p className="text credits">
-          Book & original project by <a href="https://twitter.com/shl">Sahil Lavingia</a> • Project by{" "}
+          Book by <a href={AUTHOR_LINK}>{BOOK_AUTHOR}</a> • Original project by{" "}
+          <a href="https://twitter.com/shl">Sahil Lavingia</a> • Code by{" "}
           <a href="https://github.com/antsgar">Antonella Sgarlatta</a> •{" "}
           <a href="https://github.com/antsgar/react-rails-project">Fork on GitHub</a>
         </p>
