@@ -67,7 +67,8 @@ const Home = () => {
       <footer>
         <p className="text credits">
           Book & original project by <a href="https://twitter.com/shl">Sahil Lavingia</a> • Project by{" "}
-          <a href="https://github.com/antsgar">Antonella Sgarlatta</a> • <a href="">Fork on GitHub</a>
+          <a href="https://github.com/antsgar">Antonella Sgarlatta</a> •{" "}
+          <a href="https://github.com/antsgar/react-rails-project">Fork on GitHub</a>
         </p>
       </footer>
     </>
