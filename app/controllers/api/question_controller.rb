@@ -1,5 +1,5 @@
-require 'csv'
-require 'matrix'
+require "csv"
+require "matrix"
 
 class Api::QuestionController < ApplicationController
   MAX_CONTEXT_LEN = 500
@@ -8,7 +8,12 @@ class Api::QuestionController < ApplicationController
 
   def initialize
     @ai_service = AiService.new()
-    @embeddings_csv = CSV.parse(File.read("book.pdf.embeddings.csv"), headers: true, converters: :numeric)
+    @embeddings_csv =
+      CSV.parse(
+        File.read("book.pdf.embeddings.csv"),
+        headers: true,
+        converters: :numeric
+      )
     @book_csv = CSV.parse(File.read("book.pdf.pages.csv"), headers: true)
   end
 
@@ -18,7 +23,7 @@ class Api::QuestionController < ApplicationController
     unless question
       context = get_context(content)
       answer = @ai_service.ask_question(content, context)
-      question = Question.create!({ :content => content, :answer => answer })
+      question = Question.create!({ content: content, answer: answer })
     end
     render json: question.to_json(only: %i[content answer])
   end
@@ -49,7 +54,8 @@ class Api::QuestionController < ApplicationController
   def get_context(content)
     question_embedding = @ai_service.get_embedding(content)
     question_embedding_vector = Vector.elements(question_embedding)
-    page_indexes_by_relevance = get_pages_indexes_sorted_by_relevance(question_embedding_vector)
+    page_indexes_by_relevance =
+      get_pages_indexes_sorted_by_relevance(question_embedding_vector)
     context_len = 0
     context = ""
     page_indexes_by_relevance.each do |index|

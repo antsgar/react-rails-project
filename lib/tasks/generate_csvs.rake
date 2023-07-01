@@ -1,5 +1,5 @@
 BOOK_CONTENT_FILENAME = "book.pdf.pages.csv"
-BOOK_CONTENT_HEADERS = ["title", "content"]
+BOOK_CONTENT_HEADERS = %w[title content]
 EMBEDDINGS_FILENAME = "book.pdf.embeddings.csv"
 EMBEDDINGS_HEADERS = ["title"]
 
@@ -14,7 +14,7 @@ namespace :generate_csvs do
   end
 
   desc "Generate csv containing embeddings per page"
-  task :generate_embeddings_csv => :environment do
+  task generate_embeddings_csv: :environment do
     require "csv"
     require "rubygems"
     book_content = CSV.parse(File.read(BOOK_CONTENT_FILENAME), headers: true)
@@ -29,7 +29,12 @@ namespace :generate_csvs do
   end
 
   def generate_book_content_csv(pdf_pages)
-    CSV.open(BOOK_CONTENT_FILENAMEFILENAME, "w", write_headers: true, headers: BOOK_CONTENT_HEADERS) do |csv|
+    CSV.open(
+      BOOK_CONTENT_FILENAMEFILENAME,
+      "w",
+      write_headers: true,
+      headers: BOOK_CONTENT_HEADERS
+    ) do |csv|
       pdf_pages.each_with_index do |page, index|
         csv << ["Page #{index}", page.text]
       end
@@ -46,8 +51,13 @@ namespace :generate_csvs do
   end
 
   def generate_embeddings_csv(embeddings)
-    headers = EMBEDDINGS_HEADERS.concat([*0..embeddings[0].size]-1)
-    CSV.open(EMBEDDINGS_FILENAME, "w", write_headers: true, headers: headers) do |csv|
+    headers = EMBEDDINGS_HEADERS.concat([*0..embeddings[0].size] - 1)
+    CSV.open(
+      EMBEDDINGS_FILENAME,
+      "w",
+      write_headers: true,
+      headers: headers
+    ) do |csv|
       embeddings.each_with_index do |embedding, index|
         csv_row = ["Page #{index}"]
         csv_row.concat(embedding)
@@ -55,5 +65,4 @@ namespace :generate_csvs do
       end
     end
   end
-
 end
