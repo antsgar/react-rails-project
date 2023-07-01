@@ -23,6 +23,10 @@
   `rake generate_csvs:generate_book_content_csv\['PDF_FILE_PATH'\]`.
 - Run `rake generate_csvs:generate_embeddings_csv` to generate a CSV containing the embedding for each of the book pages, which will be used to get the relevant pages to send as input to the AI model.
 
+## Configure OpenAI API key
+
+To make requests to OpenAI, you'll have to set your API key to the credentials file by running `bin/rails credentials:edit`. The credential should be called `openai_api_key`.
+
 # Key decisions and potential improvements
 
 ## Key decisions
